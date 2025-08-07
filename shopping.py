@@ -20,7 +20,6 @@ def main():
     X_train, X_test, y_train, y_test = train_test_split(
         evidence, labels, test_size=TEST_SIZE
     )
-    """
     # Train model and make predictions
     model = train_model(X_train, y_train)
     predictions = model.predict(X_test)
@@ -31,7 +30,7 @@ def main():
     print(f"Incorrect: {(y_test != predictions).sum()}")
     print(f"True Positive Rate: {100 * sensitivity:.2f}%")
     print(f"True Negative Rate: {100 * specificity:.2f}%")
-    """
+    
 
 def load_data(filename):
     """
@@ -109,8 +108,7 @@ def train_model(evidence, labels):
     Given a list of evidence lists and a list of labels, return a
     fitted k-nearest neighbor model (k=1) trained on the data.
     """
-    raise NotImplementedError
-
+    return(KNeighborsClassifier(n_neighbors=3).fit(evidence, labels))
 
 def evaluate(labels, predictions):
     """
