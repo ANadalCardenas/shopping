@@ -16,12 +16,11 @@ def main():
 
     # Load data from spreadsheet and split into train and test sets
     evidence, labels = load_data(sys.argv[1])
-    print(evidence, labels)
-    """
+    
     X_train, X_test, y_train, y_test = train_test_split(
         evidence, labels, test_size=TEST_SIZE
     )
-
+    """
     # Train model and make predictions
     model = train_model(X_train, y_train)
     predictions = model.predict(X_test)
@@ -75,28 +74,29 @@ def load_data(filename):
               'Nov': 10,
               'Dec': 11
               }
-    visitor_type = {'New_Visitor': 0, 'Returning_Visitor': 1}
+    visitor_type = {'New_Visitor': 0, 'Returning_Visitor': 1, 'Other': 0}
     evidence = []
     labels = []
     df = pd.read_csv("shopping.csv")
-    for row in df.iterrows():
-        row_evidence = [int(row['Administrative']), 
-                        float(row['Administrative_Duration']),
-                        int(row['Informational']),
-                        float(row['Informational_Duration']),
-                        int(row['ProductRelated']),
-                        float(row['ProductRelated_Duration']),
-                        float(row['BounceRates']),
-                        float(row['ExitRates']),
-                        float(row['PageValues']),
-                        float(row['SpecialDay']),
-                        months[row['Month']],
-                        int(row['OperatingSystems']),
-                        int(row['Browser']),
-                        int(row['Region']),
-                        int(row['TrafficType']),
-                        visitor_type[(row['VisitorType'])],
-                        1 if row['Weekend'] else 0,
+    for _,row in df.iterrows():
+        dict_row = row.to_dict()
+        row_evidence = [int(dict_row['Administrative']), 
+                        float(dict_row['Administrative_Duration']),
+                        int(dict_row['Informational']),
+                        float(dict_row['Informational_Duration']),
+                        int(dict_row['ProductRelated']),
+                        float(dict_row['ProductRelated_Duration']),
+                        float(dict_row['BounceRates']),
+                        float(dict_row['ExitRates']),
+                        float(dict_row['PageValues']),
+                        float(dict_row['SpecialDay']),
+                        months[dict_row['Month']],
+                        int(dict_row['OperatingSystems']),
+                        int(dict_row['Browser']),
+                        int(dict_row['Region']),
+                        int(dict_row['TrafficType']),
+                        visitor_type[(dict_row['VisitorType'])],
+                        1 if dict_row['Weekend'] else 0,
                         ]
         revenue_label = 1 if row['Revenue'] else 0
         labels.append(revenue_label)
